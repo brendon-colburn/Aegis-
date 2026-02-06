@@ -1,6 +1,7 @@
 import type { Command } from "commander";
 import type { ProgramContext } from "./context.js";
 import { agentsListCommand } from "../../commands/agents.js";
+import { createAegisCommand } from "../../commands/aegis.js";
 import { healthCommand } from "../../commands/health.js";
 import { sessionsCommand } from "../../commands/sessions.js";
 import { statusCommand } from "../../commands/status.js";
@@ -113,6 +114,10 @@ const routeMemoryStatus: RouteSpec = {
 };
 
 export const commandRegistry: CommandRegistration[] = [
+  {
+    id: "aegis",
+    register: ({ program }) => program.addCommand(createAegisCommand()),
+  },
   {
     id: "setup",
     register: ({ program }) => registerSetupCommand(program),
