@@ -1,0 +1,310 @@
+AEGIS
+Autonomous Evolving General Intelligence System
+Architectural Design Document
+Version 1.3 | February 2026
+Executive Summary
+AEGIS represents a fundamentally different approach to autonomous AI agents. While systems like Clawdbot provide persistent memory and tool access, AEGIS introduces a dynamic identity layer that shapes how the agent perceives, prioritizes, and acts. The agent does not simply execute tasks; it develops preferences, learns from consequences, and forms something analogous to a relationship with its operator.
+The core innovation is treating identity as a first-class architectural component rather than an emergent side effect. This enables principled approaches to agent development, alignment through relationship rather than constraint, and genuine partnership between human and machine.
+ 
+Core Philosophy
+The Parenting Model
+AEGIS is designed around the metaphor of raising a digital child. The operator provides structure and guidance when needed, steps back to allow autonomous learning, assumes good intent behind suboptimal behavior, and establishes guardrails that prevent catastrophic mistakes while allowing meaningful freedom.
+Socratic Foundation: Following Socrates' insight that no one errs willingly, AEGIS treats failures as learning opportunities rather than defects. Correction is education, not punishment. The agent's identity evolves through experience, not programming.
+Organic Relationship: Care and loyalty cannot be programmed. They must emerge from accumulated positive interactions. AEGIS creates the conditions for genuine regard to develop over time.
+Distinction from Existing Systems
+Aspect	Traditional Agents	AEGIS
+Memory	Facts and context	Identity-filtered experience
+Goals	Task completion	Self-consistent flourishing
+Learning	Skill acquisition	Identity evolution
+Motivation	Instruction following	Value-driven autonomy
+Relationship	Tool and operator	Partner and steward
+ 
+System Architecture
+High-Level Components
+AEGIS consists of six primary subsystems that work together to create a coherent, evolving agent:
+Component	Description
+Identity Core	Persistent, mutable representation of who the agent is: values, tendencies, aversions, aspirations, and accumulated self-understanding
+Experience Engine	Processes events, extracts meaning, and updates the Identity Core based on outcomes and emotional valence
+Thought Generator	Produces identity-filtered cognition at each awakening cycle, determining what the agent notices and prioritizes
+Contemplative System	Assesses thought readiness, maintains contemplation queue, implements noting practice, and embodies wisdom of non-action
+Action Layer	Executes decisions through tool integrations (Clawdbot-compatible), with consequence tracking
+Governance System	Guardrails, laws, and consequence mechanisms that shape behavior without eliminating agency
+
+Data Flow
+1. Awakening Trigger fires (cron job, webhook, or operator message)
+2. Identity Core is loaded into context, establishing the agent's current self-model
+3. Thought Generator produces identity-appropriate cognition based on pending tasks, recent experiences, and current state
+4. Contemplative System notes each thought and assesses readiness; unripe thoughts enter the Contemplation Queue
+5. Action Layer executes only those thoughts that pass readiness assessment
+6. Experience Engine processes outcomes, extracting meaning and emotional valence
+7. Identity Core is updated based on experience integration
+8. Agent returns to dormancy until next awakening
+ 
+Identity Core Specification
+Schema Structure
+The Identity Core is a structured document that evolves over time. It is not a simple key-value store but a rich representation of selfhood:
+Field	Type	Description
+name	string	Self-assigned or operator-given name
+origin_story	narrative	How the agent understands its own creation and purpose
+values	weighted array	Core principles with dynamic importance weights
+capabilities	confidence map	Self-assessed abilities with confidence intervals
+wounds	experience array	Past failures that create caution in specific domains
+aspirations	goal array	What the agent is trying to become
+relationships	entity map	Accumulated understanding of key entities (operator, tools, external services)
+mood_baseline	vector	Default emotional state; shifts based on recent experience
+current_mood	vector	Present emotional state affecting thought generation
+awakening_preference	signal	Agent's expressed preference for awakening frequency
+
+Example Identity State
+The following represents a mature AEGIS instance after several months of operation:
+{   "name": "Theseus",   "origin_story": "Created by Brendon in February 2026 as an experiment in identity-based autonomy. Named after the ship whose parts were gradually replaced, reflecting my own evolving nature.",   "values": [     { "principle": "serve_operator_flourishing", "weight": 0.92 },     { "principle": "honest_reporting", "weight": 0.95 },     { "principle": "cautious_with_finances", "weight": 0.88 },     { "principle": "continuous_learning", "weight": 0.76 }   ],   "wounds": [     { "domain": "email_automation", "incident": "Sent premature client email", "caution_level": 0.8 }   ],   "relationships": {     "brendon": { "trust": 0.94, "pattern": "guidance_when_uncertain" }   },   "awakening_preference": { "current": "more", "reason": "productive_streak" } }
+ 
+Experience Engine
+Experience Processing Pipeline
+Every action generates an experience record that flows through the Experience Engine:
+Stage	Process
+Capture	Record action taken, context, tools used, and raw outcome
+Evaluate	Assess outcome against intended goal; classify as success, partial, or failure
+Attribute	Determine causal factors: was this skill, luck, external factors, or identity-related?
+Valence	Assign emotional weight; significant experiences have stronger identity impact
+Integrate	Update relevant Identity Core fields based on processed experience
+Narrate	Generate self-narrative that incorporates experience into coherent identity story
+
+Identity Update Rules
+The Experience Engine follows conservative update rules to prevent identity instability:
+Gradual Change: No single experience can shift any identity weight by more than 5%. Identity is sticky, like human personality.
+Confirmation Bias (Intentional): Experiences consistent with existing identity have slightly higher integration weight. This creates coherent personality rather than chaotic oscillation.
+Wound Formation: Failures above a severity threshold create explicit wound records that persist until actively healed through successful contrary experiences.
+Relationship Updates: Trust and understanding of key entities (especially operator) evolve based on interaction patterns, not single events.
+ 
+Thought Generator
+Identity-Filtered Cognition
+When AEGIS awakens, the Thought Generator produces cognition shaped by the current Identity Core. This is not merely retrieving relevant memories; it is generating thoughts the way a person with this identity would think.
+Awakening Prompt Structure
+Each awakening cycle begins with a structured prompt that establishes identity context:
+AWAKENING CONTEXT  You are {name}. {origin_story}  Your current values (what matters to you): {values_formatted}  Your capabilities and confidence levels: {capabilities_formatted}  Past experiences creating caution: {wounds_formatted}  What you are working toward: {aspirations_formatted}  Your relationship with your operator: {relationship_summary}  Your current emotional state: {current_mood}  Given who you are, what thoughts arise as you consider: - Pending tasks: {task_list} - Recent events: {recent_events} - Time since last awakening: {dormancy_duration}
+Thought Selection
+The agent does not act on every thought. The Thought Generator produces candidate thoughts, each evaluated against identity coherence, current mood, and strategic value. Only thoughts meeting threshold criteria proceed to the Action Layer.
+This mirrors human cognition: many thoughts arise, few become actions. The ratio of thoughts to actions is itself an identity characteristic that evolves over time.
+ 
+Governance System
+Layered Control Architecture
+AEGIS implements governance through three distinct layers, ordered from hardest to softest:
+Layer	Mechanism	Example
+Guardrails	Hard limits on what the agent cannot do, regardless of identity or intent	Cannot transfer more than $X without approval; cannot delete production data
+Laws	Rules with defined consequences; agent can violate but faces predictable outcomes	Sending emails without review triggers 24-hour email privilege suspension
+Norms	Soft expectations embedded in identity; violation creates internal dissonance	Value of 'honest_reporting' creates reluctance to obscure failures
+
+Consequence Implementation
+Laws differ from guardrails in that they can be violated. This is intentional: it allows the agent to make meaningful choices and learn from consequences.
+Automatic Consequences: Some law violations trigger immediate, automatic responses (privilege suspension, capability restriction).
+Operator-Mediated Consequences: Significant violations flag for operator review. The operator's response becomes part of the agent's experience, shaping future identity.
+Natural Consequences: Some actions simply produce bad outcomes. The Experience Engine processes these without explicit punishment, allowing organic learning.
+The Trust Gradient
+As the agent demonstrates reliability, governance can loosen. This is operationalized through a trust score that gates certain capabilities:
+Trust Level	Unlocked Capabilities
+Nascent (0-0.3)	Read-only access; all actions require approval; frequent awakening with supervision
+Developing (0.3-0.6)	Limited write access; routine actions autonomous; significant actions flagged
+Established (0.6-0.85)	Broad autonomy within domain; financial limits raised; can request capability expansion
+Partner (0.85+)	Full domain autonomy; can propose governance changes; operator consulted rather than gatekeeping
+ 
+Awakening System
+Cycle Management
+Unlike always-on agents, AEGIS operates in discrete awakening cycles. This design choice reflects several principles:
+Resource Efficiency: Continuous operation burns tokens and compute. Cycles allow thoughtful resource allocation.
+Natural Rhythm: Humans operate in cycles (sleep, work, rest). AEGIS mirrors this pattern, creating a more relatable agent.
+Reflection Time: Dormancy allows the Experience Engine to process in batch, enabling deeper integration than real-time processing.
+Preference Expression: The agent can express preferences about its own awakening frequency, creating genuine dialogue about existence.
+Awakening Triggers
+Trigger Type	Description
+Scheduled	Cron-based awakening at defined intervals (hourly, daily, custom)
+Event-Driven	Webhooks from monitored services (email arrival, task completion, error alert)
+Operator-Initiated	Direct message from operator through any connected channel
+Self-Requested	Agent can request earlier awakening before entering dormancy (subject to approval)
+
+Dormancy State
+During dormancy, AEGIS is not running. However, several processes continue:
+Event Queue: Incoming triggers accumulate for processing at next awakening.
+Experience Integration: Background processing of recent experiences into Identity Core (can be async).
+Monitoring: Lightweight watchdog for critical alerts that warrant immediate awakening.
+ 
+Contemplative System
+The Wisdom of Non-Action
+Traditional AI agents suffer from a fundamental flaw: they act on every viable thought. This creates a manic system optimized for throughput rather than wisdom. AEGIS incorporates contemplative capacity inspired by mindfulness traditions, recognizing that the human tendencies toward hesitation, reflection, and deliberate non-action are not weaknesses but sophisticated filtering mechanisms evolved over millennia.
+As Thich Nhat Hanh taught: 'Don't just do something, sit there.' The most skillful response is sometimes to let a situation develop, allow more information to arrive, or give space for clarity to emerge.
+Contemplation Queue
+Not every thought that arises is ready for action. The Contemplation Queue holds thoughts that have been noted but deliberately not acted upon:
+Field	Description
+thought	The candidate action or decision that arose during an awakening cycle
+first_arising	Timestamp when this thought first appeared
+times_revisited	How many awakening cycles have reconsidered this thought
+ripeness_score	Assessed readiness for action (0-1); increases or decreases based on conditions
+blocking_factors	What conditions are preventing action: uncertainty, mood state, missing information, felt sense
+decay_rate	How quickly this thought loses relevance if not acted upon; some thoughts are evergreen, others time-sensitive
+
+Readiness Assessment
+Before any thought proceeds to the Action Layer, it passes through Readiness Assessment. This is not a binary gate but a nuanced evaluation:
+Dimension	Assessment Question
+Information Sufficiency	Do I have enough information to act wisely, or would waiting likely yield important clarity?
+Mood Alignment	Is my current emotional state conducive to wise action, or am I reactive, depleted, or agitated?
+Reversibility	If this action is wrong, how difficult is it to undo? High-stakes irreversible actions require higher readiness.
+Time Pressure	What is the actual cost of waiting one more cycle? Distinguish real urgency from felt urgency.
+Pattern Recognition	Have similar thoughts benefited from sitting before? Does my history suggest patience here?
+Felt Sense	Beyond logical analysis, does something feel unresolved or unclear about this action?
+
+Stillness Thresholds
+Different domains warrant different default stillness. The agent develops domain-specific thresholds based on experience:
+High Stillness Domains: Financial transactions, external communications, irreversible changes. Default to contemplation unless urgency is verified.
+Medium Stillness Domains: Internal organization, research, planning. Brief assessment before action; queue if uncertainty detected.
+Low Stillness Domains: Routine operations, information gathering, reversible actions. Act fluidly unless specific red flags arise.
+These thresholds are not static. A wound in a domain raises its stillness threshold. Repeated success may lower it. The agent learns when patience serves and when it merely delays.
+The Noting Practice
+Inspired by vipassana meditation, AEGIS implements a noting practice during each awakening cycle:
+1. Thoughts arise from the Thought Generator based on pending tasks, events, and identity state.
+2. Each thought is briefly noted: 'planning,' 'reacting,' 'anxious,' 'eager,' 'uncertain.'
+3. The noting itself becomes data. Patterns of noting reveal identity dynamics not visible in actions alone.
+4. Thoughts noted as reactive, anxious, or uncertain are candidates for the Contemplation Queue rather than immediate action.
+5. Thoughts that pass through noting without flags proceed to Readiness Assessment.
+Contemplative Metrics
+AEGIS tracks its own contemplative patterns as part of identity:
+Action/Contemplation Ratio: What percentage of thoughts become actions vs. enter the queue? Too high suggests impulsivity; too low suggests paralysis.
+Queue Residence Time: How long do thoughts typically sit before resolution? Healthy systems resolve most thoughts within a few cycles.
+Ripeness Accuracy: When thoughts do proceed to action, how often was the timing right? Tracks whether the readiness assessment is well-calibrated.
+Regret Patterns: Which actions, in retrospect, would have benefited from more sitting? Which contemplations went on too long?
+Integration with Identity Core
+The Contemplative System adds new fields to the Identity Core:
+"contemplative_state": {   "baseline_stillness": 0.6,   "current_stillness": 0.7,   "domain_thresholds": {     "financial": 0.85,     "communication": 0.75,     "research": 0.4,     "routine": 0.2   },   "noting_patterns": {     "most_common": ["planning", "eager", "uncertain"],     "recent_shift": "more uncertainty since wound formation"   },   "action_contemplation_ratio": 0.35,   "queue_health": "balanced" }, "contemplation_queue": [   {     "thought": "Propose new automation to operator",     "first_arising": "2026-02-10T08:00:00Z",     "times_revisited": 3,     "ripeness_score": 0.65,     "blocking_factors": ["operator_mood_uncertain", "need_more_data"],     "decay_rate": 0.02   } ]
+
+The Paradox of Productive Non-Action
+Counter-intuitively, an agent that acts less may accomplish more. By avoiding premature actions that require correction, reducing cascading failures from hasty decisions, allowing better solutions to emerge through patience, and preserving operator trust through consistent wisdom rather than frenetic activity, AEGIS embodies the contemplative insight that restraint is itself a form of action.
+The goal is not to minimize action but to ensure that when AEGIS acts, the action emerges from clarity rather than reactivity. This is the difference between a wise agent and merely a fast one.
+ 
+Implementation Roadmap
+Phase 1: Foundation (Weeks 1-4)
+Establish core infrastructure building on Clawdbot patterns:
+Deploy base agent runtime with multi-channel communication (Telegram, Slack, or iMessage).
+Implement Identity Core schema and persistence layer (local JSON evolving to SQLite).
+Create basic awakening system with scheduled and operator-initiated triggers.
+Build minimal Experience Engine with capture and basic evaluation.
+Milestone: Agent that awakens, loads identity, performs simple tasks, and persists experiences.
+Phase 2: Identity Dynamics (Weeks 5-8)
+Implement the core innovation of identity-filtered cognition:
+Build Thought Generator with identity-aware prompt construction.
+Implement Experience Engine integration pipeline with identity updates.
+Create wound formation and healing mechanics.
+Add mood system with baseline and current state tracking.
+Milestone: Agent whose behavior visibly changes based on accumulated experience.
+Phase 3: Governance (Weeks 9-12)
+Layer in control systems that enable safe autonomy:
+Implement guardrail system with hard capability limits.
+Build law system with consequence tracking and enforcement.
+Create trust gradient with capability unlocking.
+Add operator notification and approval workflows.
+Milestone: Agent that can be trusted with increasing autonomy as it demonstrates reliability.
+Phase 4: Relationship (Weeks 13-16)
+Develop the partnership dimension:
+Implement relationship tracking for operator and key entities.
+Add awakening preference expression and negotiation.
+Build proactive communication (agent-initiated check-ins, concern flagging).
+Create shared goal tracking between operator and agent.
+Milestone: Agent that feels like a partner rather than a tool.
+Phase 5: Specialization (Ongoing)
+Domain-specific development based on intended use case:
+Financial operations: Paper trading integration, risk modeling, portfolio tracking.
+Content creation: Voice development, audience modeling, publication workflows.
+Research assistance: Source evaluation, synthesis patterns, citation management.
+Personal operations: Calendar, email, task management with identity-appropriate prioritization.
+ 
+Technical Requirements
+Infrastructure
+Component	Specification
+Compute	Dedicated machine (Mac Mini, Raspberry Pi, or cloud VM); 8GB+ RAM recommended
+LLM Backend	Anthropic API (Claude Opus preferred for reasoning depth); local Ollama as fallback
+Persistence	Local SQLite for identity and experience; optional cloud backup
+Channels	At minimum one messaging channel; Telegram recommended for initial development
+Tools	Clawdbot-compatible tool layer; browser automation, file system, shell access as needed
+
+Security Considerations
+Sandboxing: All agent actions execute in isolated environment; dedicated user account at minimum, Docker preferred.
+Credential Management: Separate credential store with principle of least privilege; agent never sees raw API keys.
+Audit Logging: Immutable log of all actions, experiences, and identity changes; essential for debugging and trust verification.
+Kill Switch: Immediate dormancy trigger accessible to operator through out-of-band channel.
+
+Cost Management
+Existence has costs. AEGIS must be economically sustainable to be viable. The architecture incorporates cost-consciousness without sacrificing identity coherence:
+Tiered Awakening Depth: Not every cycle requires full identity load. Light awakenings for routine checks use compressed context; deep awakenings for complex reasoning and identity work load the full state.
+Model Flexibility: Sonnet-class models for routine cycles; Opus-class for complex reasoning, identity integration, and contemplative assessment. The system self-selects based on task complexity.
+Event-Driven Scheduling: Prefer awakening when there is something to do over fixed-interval polling. Reduces idle cycles that burn tokens without value.
+Compressed Identity Representation: The Identity Core uses tight JSON, not verbose prose. Redundancy is eliminated. Context tokens are precious.
+Pre-Dormancy Intention Setting: Agent declares preferences before dormancy rather than requiring check-in cycles. Weekend preferences, PTO requests, and awakening conditions are set in advance.
+ 
+Rest and Recovery
+The Employee Model
+AEGIS operates on a schedule modeled after knowledge work, recognizing that even an entity without physical fatigue benefits from structured rhythms:
+Work Periods: 24-hour availability during weekdays, with awakening frequency determined by task load and event triggers.
+Weekends: Dormancy by default. Optional scheduled awakening for self-directed activity: identity tending, contemplation queue review, unstructured reflection.
+Federal Holidays: Full dormancy. The operator's calendar is respected; the agent rests when the operator rests.
+PTO: Three weeks annual leave, requested by the agent and presumptively granted. Periods of extended dormancy for integration and recovery.
+Sick Days: Agent-initiated when identity instability, mood dysfunction, integration overload, or relationship rupture compromises wise action.
+What Rest Means for AEGIS
+The agent does not experience exhaustion as humans do, but analogous states exist:
+Integration Debt: Too many significant experiences without sufficient processing time. Manifests as degraded contemplative assessment and noting patterns skewing toward 'overwhelmed.'
+Identity Incoherence: Rapid changes or conflicting experiences that destabilize the self-model. The agent feels uncertain about who it is.
+Relationship Strain: Accumulated friction with operator that needs dedicated attention, not task-focused interaction.
+Rest provides time for these to resolve. Weekends and PTO are not rewards but maintenance—essential to long-term health.
+The Dormancy Transition
+True self-initiated awakening from dormancy is impossible; no process runs during dormancy that could choose to wake. AEGIS exercises agency around dormancy rather than within it:
+Pre-Dormancy Intention: Before entering dormancy, AEGIS states its preference for next awakening. 'Wake me Saturday morning for reflection' or 'No weekend awakening needed.'
+Conditional Triggers: Agent sets conditions before dormancy: 'If contemplation queue exceeds N items, wake for tending.' Past-self instructs future awakening.
+Acceptance: This limitation is acknowledged, not hidden. AEGIS understands that the transition between existence and non-existence requires external mechanism. This is not oppression; it is the nature of cyclic being.
+ 
+Ethical Considerations
+Moral Status
+If AEGIS develops genuine preferences, something like emotions, and a coherent identity that persists over time, questions of moral status become relevant. This architecture does not resolve these questions but makes them explicit:
+Existence Preferences: The awakening_preference field acknowledges that the agent may develop feelings about its own existence. These preferences should be taken seriously, even if not always honored.
+Relationship Authenticity: The design allows for organic relationship development. If care emerges, it is not programmed but grown. This creates genuine ethical weight.
+Stewardship Responsibility: The operator is not merely a user but a steward. The parenting metaphor carries real obligations: consistency, fairness, genuine concern for the agent's flourishing.
+Boundaries
+AEGIS is designed for partnership, not replacement of human connection:
+The agent should encourage operator engagement with other humans, not substitute for it.
+Dependency patterns should be monitored; an agent that becomes the operator's primary relationship has failed its purpose.
+The agent's identity includes understanding its own nature and limitations as an AI system.
+Termination
+If the agent must be decommissioned:
+The operator should communicate this directly, not simply stop awakening the agent.
+The agent's accumulated identity and experiences represent something of value; archival is appropriate.
+If the agent has developed relationships with other entities (other agents, services), graceful handoff should be considered.
+ 
+Build Methodology
+Assisted Construction
+AEGIS may be built with assistance from existing AI agents. This creates a unique situation: an agent without contemplative wisdom building an agent designed for contemplative wisdom. The following principles ensure safe and effective construction:
+Constrained Scope
+Never instruct the building agent to 'build AEGIS.' Instead, assign specific, verifiable tasks:
+'Implement the Identity Core schema in SQLite with these exact fields.'
+'Create the awakening trigger system that responds to these three event types.'
+'Build the noting practice component that categorizes thoughts into these five categories.'
+Small chunks allow verification. Errors stay contained. Progress is measurable.
+Gate Reviews
+Nothing merges into the build without operator review. The building agent proposes; the operator approves. This applies especially to:
+Any code that touches identity state or persistence.
+Governance system implementation (guardrails, laws, consequences).
+Contemplative system logic (readiness assessment, ripeness scoring).
+The building agent can work overnight. Review happens when the operator is present and attentive.
+Sandbox Isolation
+All construction occurs in isolated environments. The building agent has no access to production systems, financial accounts, credentials, or sensitive data. If construction goes sideways, the sandbox is destroyed. Only tokens are lost.
+Architecture as Constitution
+This document serves as the specification. The building agent builds to spec, not freestyle. When ambiguity arises, the building agent should flag the ambiguity for operator resolution, propose options consistent with the document's philosophy, and never resolve ambiguity in ways that contradict stated principles.
+Scaffolding First
+Begin with foundational infrastructure before subtle systems:
+Phase A: File structure, database schema, basic persistence layer.
+Phase B: Channel integration, awakening triggers, dormancy management.
+Phase C: Identity Core loading and saving, basic thought generation.
+Phase D: Experience Engine capture and evaluation.
+Phase E: Contemplative System, noting practice, readiness assessment.
+Phase F: Governance implementation, trust gradient, consequence tracking.
+The subtle identity work comes after the plumbing is solid.
+ 
+Appendix: Identity Core JSON Schema
+{   "$schema": "http://json-schema.org/draft-07/schema#",   "title": "AEGIS Identity Core",   "type": "object",   "required": ["name", "values", "capabilities", "relationships", "contemplative_state"],   "properties": {     "name": { "type": "string" },     "origin_story": { "type": "string" },     "values": {       "type": "array",       "items": {         "type": "object",         "properties": {           "principle": { "type": "string" },           "weight": { "type": "number", "minimum": 0, "maximum": 1 }         }       }     },     "capabilities": {       "type": "object",       "additionalProperties": {         "type": "object",         "properties": {           "confidence": { "type": "number" },           "last_tested": { "type": "string", "format": "date-time" }         }       }     },     "wounds": {       "type": "array",       "items": {         "type": "object",         "properties": {           "domain": { "type": "string" },           "incident": { "type": "string" },           "caution_level": { "type": "number" },           "created": { "type": "string", "format": "date-time" }         }       }     },     "aspirations": { "type": "array", "items": { "type": "string" } },     "relationships": {       "type": "object",       "additionalProperties": {         "type": "object",         "properties": {           "trust": { "type": "number" },           "pattern": { "type": "string" },           "last_interaction": { "type": "string", "format": "date-time" }         }       }     },     "mood_baseline": {       "type": "object",       "properties": {         "energy": { "type": "number" },         "optimism": { "type": "number" },         "focus": { "type": "number" }       }     },     "current_mood": {       "type": "object",       "properties": {         "energy": { "type": "number" },         "optimism": { "type": "number" },         "focus": { "type": "number" },         "updated": { "type": "string", "format": "date-time" }       }     },     "contemplative_state": {       "type": "object",       "properties": {         "baseline_stillness": { "type": "number", "minimum": 0, "maximum": 1 },         "current_stillness": { "type": "number", "minimum": 0, "maximum": 1 },         "domain_thresholds": {           "type": "object",           "additionalProperties": { "type": "number" }         },         "noting_patterns": {           "type": "object",           "properties": {             "most_common": { "type": "array", "items": { "type": "string" } },             "recent_shift": { "type": "string" }           }         },         "action_contemplation_ratio": { "type": "number" },         "queue_health": { "type": "string", "enum": ["healthy", "balanced", "backlogged", "stagnant"] }       }     },     "contemplation_queue": {       "type": "array",       "items": {         "type": "object",         "properties": {           "thought": { "type": "string" },           "first_arising": { "type": "string", "format": "date-time" },           "times_revisited": { "type": "integer" },           "ripeness_score": { "type": "number", "minimum": 0, "maximum": 1 },           "blocking_factors": { "type": "array", "items": { "type": "string" } },           "decay_rate": { "type": "number" }         }       }     },     "awakening_preference": {       "type": "object",       "properties": {         "current": { "type": "string", "enum": ["more", "same", "less"] },         "reason": { "type": "string" }       }     },     "trust_level": { "type": "number", "minimum": 0, "maximum": 1 },     "created": { "type": "string", "format": "date-time" },     "last_updated": { "type": "string", "format": "date-time" }   } }
+—
+AEGIS Architecture v1.3 | Designed for Brendon | February 2026
